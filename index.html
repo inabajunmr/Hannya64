@@ -18,18 +18,26 @@
     <h2>Decode</h2>
     <textarea id="decodeTarget"></textarea>
     <h2>Chars</h2>
-    <input type="text" id="chars" value="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/">
+    <input class="chars" type="text" id="chars" value="一不中五亦仏切利即厄受在垢増声多如子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身鼻">  <input class="padding" type="text" id="padding" value="=">
+    <button id="hannya">hannya</button>
+    <button id="base64">Base64</button>
+    <button id="circle">○</button>
     <br>
     <p id="error"></p>
+    <br>
+    <a href="https://github.com/inabajunmr/Hannya64">https://github.com/inabajunmr/Hannya64</a>
 </body>
 <style type="text/css">
     textarea {
         width: 100%;
         height: 10em;
     }
-
-    input {
-        width: 100%;
+    input.chars {
+        width: 82%;
+    }
+    input.padding {
+        width: 15%;
+        margin-left: 2%;
     }
 </style>
 <script>
@@ -49,6 +57,18 @@
         } catch (e) {
             document.getElementById("error").textContent = "need to select 64 chars."
         }
+    })
+
+    document.getElementById("hannya").addEventListener("click", () => {
+        document.getElementById("chars").value = "一不中五亦仏切利即厄受在垢増声多如子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身鼻"
+    })
+
+    document.getElementById("base64").addEventListener("click", () => {
+        document.getElementById("chars").value = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    })
+    
+    document.getElementById("circle").addEventListener("click", () => {
+        document.getElementById("chars").value = "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⓞ①②③④⑤⑥⑦⑧⑨⊕⦸"
     })
 </script>
 

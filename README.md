@@ -1,2 +1,2 @@
 # Hannya64
-Hannya64 encode and decode.
+Hannya64 encoder and decoder.
