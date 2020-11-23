@@ -56,22 +56,32 @@
     function encode() {
         try {
             document.getElementById("decodeTarget").value = initHannya64().encodeFromString(document.getElementById("encodeTarget").value)
+            document.getElementById("error").textContent = ""
         } catch (e) {
-            document.getElementById("error").textContent = "need to select 64 chars."
+            document.getElementById("error").textContent = e.message
         }
     }
 
     function decode() {
         try {
             document.getElementById("encodeTarget").value = initHannya64().decodeToString(document.getElementById("decodeTarget").value)
+            document.getElementById("error").textContent = ""
         } catch (e) {
-            document.getElementById("error").textContent = "need to select 64 chars."
+            document.getElementById("error").textContent = e.message
         }
     }
 
     function initHannya64() {
         return new Hannya64(document.getElementById("chars").value, document.getElementById("padding").value);
     }
+
+    document.getElementById("chars").addEventListener("input", () => {
+        encode()
+    })
+
+    document.getElementById("padding").addEventListener("input", () => {
+        encode()
+    })
 
     document.getElementById("hannya").addEventListener("click", () => {
         document.getElementById("chars").value = "一不中五亦仏切利即厄受在垢増声多如、子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身"
