@@ -13,16 +13,18 @@ class Hannya64 {
     }
 
     encode(bytes) {
-        let padding = this.#paddingCount(bytes)
-        let b = new Uint8Array(bytes.length + padding);
+        const padding = this.#paddingCount(bytes)
+        const b = new Uint8Array(bytes.length + padding);
         b.set(bytes)
-        var result = ""
+        let result = ""
         for (let i = 0; i < b.length; i += 3) {
-            let a24 = b[i] << 16 | b[i + 1] << 8 | b[i + 2] // 3byte to 24bit int
-            let a1 = a24 >> 18 & 0b111111; // 1st 6bit
-            let a2 = a24 >> 12 & 0b111111; // 2nd 6bit
-            let a3 = a24 >> 6 & 0b111111; // 3rd 6bit
-            let a4 = a24 & 0b111111; // 4th 6bit
+            const a24 = b[i] << 16 | b[i + 1] << 8 | b[i + 2] // 3byte to 24bit int
+            const a1 = a24 >> 18 & 0b111111; // 1st 6bit
+            const a2 = a24 >> 12 & 0b111111; // 2nd 6bit
+            const a3 = a24 >> 6 & 0b111111; // 3rd 6bit
+            const a4 = a24 & 0b111111; // 4th 6bit
+
+            // assemble encoded string
             result += this.#base64chars.charAt(a1)
             result += this.#base64chars.charAt(a2)
             if (i + 2 == b.length - 1) {
@@ -46,20 +48,21 @@ class Hannya64 {
 
     decode(encoded) {
         let result = []
+        // 4chars(6bit) to 24byte(111111222222333333444444)
         for (let i = 0; i < encoded.length; i += 4) {
-            let i1 = this.#base64chars.indexOf(encoded.charAt(i))
-            let i2 = this.#base64chars.indexOf(encoded.charAt(i + 1))
-            let b1 = i1 << 2 | i2 >> 4; // 11111122
+            const i1 = this.#base64chars.indexOf(encoded.charAt(i))
+            const i2 = this.#base64chars.indexOf(encoded.charAt(i + 1))
+            const b1 = i1 << 2 | i2 >> 4; // 11111122
             result.push(b1)
             let i3 = 0;
             if (encoded.charAt(i + 2) != this.#padding) {
                 i3 = this.#base64chars.indexOf(encoded.charAt(i + 2));
-                let b2 = i2 << 4 & 0b11110000 | i3 >> 2; // 22223333
+                const b2 = i2 << 4 & 0b11110000 | i3 >> 2; // 22223333
                 result.push(b2)
             }
             if (encoded.charAt(i + 3) != this.#padding) {
-                let i4 = this.#base64chars.indexOf(encoded.charAt(i + 3));
-                let b3 = i3 << 6 & 0b11000000 | i4; // 33444444
+                const i4 = this.#base64chars.indexOf(encoded.charAt(i + 3));
+                const b3 = i3 << 6 & 0b11000000 | i4; // 33444444
                 result.push(b3)
             }
         }
@@ -86,5 +89,4 @@ class Hannya64 {
         }
         return 0;
     }
-
 }
