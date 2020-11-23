@@ -1,10 +1,15 @@
 class Hannya64 {
     #base64chars
-    constructor(chars) {
+    #padding
+    constructor(chars, padding) {
         if (chars.length != 64) {
-            throw new Error("Requires 64 length text.")
+            throw new Error("Chars 64 length text.")
+        }
+        if (padding.length != 1) {
+            throw new Error("Padding requires single letter.")
         }
         this.#base64chars = chars
+        this.#padding = padding
     }
 
     encode(bytes) {
@@ -24,12 +29,12 @@ class Hannya64 {
                 if (padding <= 1) {
                     result += this.#base64chars.charAt(a3);
                 } else {
-                    result += '=';
+                    result += this.#padding;
                 }
                 if (padding == 0) {
                     result += this.#base64chars.charAt(a4);
                 } else {
-                    result += '=';
+                    result += this.#padding;
                 }
             } else {
                 result += this.#base64chars.charAt(a3);
@@ -47,12 +52,12 @@ class Hannya64 {
             let b1 = i1 << 2 | i2 >> 4; // 11111122
             result.push(b1)
             let i3 = 0;
-            if (encoded.charAt(i + 2) != '=') {
+            if (encoded.charAt(i + 2) != this.#padding) {
                 i3 = this.#base64chars.indexOf(encoded.charAt(i + 2));
                 let b2 = i2 << 4 & 0b11110000 | i3 >> 2; // 22223333
                 result.push(b2)
             }
-            if (encoded.charAt(i + 3) != '=') {
+            if (encoded.charAt(i + 3) != this.#padding) {
                 let i4 = this.#base64chars.indexOf(encoded.charAt(i + 3));
                 let b3 = i3 << 6 & 0b11000000 | i4; // 33444444
                 result.push(b3)

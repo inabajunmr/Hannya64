@@ -19,8 +19,8 @@
     <textarea id="decodeTarget"></textarea>
     <h2>Chars</h2>
     <input class="chars" type="text" id="chars"
-        value="一不中五亦仏切利即厄受在垢増声多如子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身鼻"> <input class="padding" type="text"
-        id="padding" value="=">
+        value="一不中五亦仏切利即厄受在垢増声多如、子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身"> <input class="padding" type="text"
+        id="padding" value="三">
     <button id="hannya">hannya</button>
     <button id="circle">○</button>
     <button id="base64">Base64</button>
@@ -46,39 +46,49 @@
 </style>
 <script>
     document.getElementById("encodeTarget").addEventListener("input", () => {
-        try {
-            const hannya = new Hannya64(document.getElementById("chars").value);
-            document.getElementById("decodeTarget").value = hannya.encodeFromString(document.getElementById("encodeTarget").value)
-        } catch (e) {
-            document.getElementById("error").textContent = "need to select 64 chars."
-        }
+        encode()
     })
 
     document.getElementById("decodeTarget").addEventListener("input", () => {
+        decode()
+    })
+
+    function encode() {
         try {
-            const hannya = new Hannya64(document.getElementById("chars").value);
-            document.getElementById("encodeTarget").value = hannya.decodeToString(document.getElementById("decodeTarget").value)
+            document.getElementById("decodeTarget").value = initHannya64().encodeFromString(document.getElementById("encodeTarget").value)
         } catch (e) {
             document.getElementById("error").textContent = "need to select 64 chars."
         }
-    })
+    }
+
+    function decode() {
+        try {
+            document.getElementById("encodeTarget").value = initHannya64().decodeToString(document.getElementById("decodeTarget").value)
+        } catch (e) {
+            document.getElementById("error").textContent = "need to select 64 chars."
+        }
+    }
+
+    function initHannya64() {
+        return new Hannya64(document.getElementById("chars").value, document.getElementById("padding").value);
+    }
 
     document.getElementById("hannya").addEventListener("click", () => {
-        document.getElementById("chars").value = "一不中五亦仏切利即厄受在垢増声多如子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身鼻"
-        const hannya = new Hannya64(document.getElementById("chars").value);
-        document.getElementById("decodeTarget").value = hannya.encodeFromString(document.getElementById("encodeTarget").value)
+        document.getElementById("chars").value = "一不中五亦仏切利即厄受在垢増声多如、子度復心想意摩故是時法波浄深減滅無照生異皆相眼空経羅耳自舌舎般色若苦菩薩蘊蜜行見観訶説諸識身"
+        document.getElementById("padding").value = "三"
+        encode()
     })
 
     document.getElementById("circle").addEventListener("click", () => {
         document.getElementById("chars").value = "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⓞ①②③④⑤⑥⑦⑧⑨⊕⦸"
-        const hannya = new Hannya64(document.getElementById("chars").value);
-        document.getElementById("decodeTarget").value = hannya.encodeFromString(document.getElementById("encodeTarget").value)
+        document.getElementById("padding").value = "⊜"
+        encode()
     })
 
     document.getElementById("base64").addEventListener("click", () => {
         document.getElementById("chars").value = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-        const hannya = new Hannya64(document.getElementById("chars").value);
-        document.getElementById("decodeTarget").value = hannya.encodeFromString(document.getElementById("encodeTarget").value)
+        document.getElementById("padding").value = "="
+        encode()
     })
 
 </script>
